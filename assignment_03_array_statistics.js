@@ -44,3 +44,61 @@
 // =============================================================================
 
 
+const readline = require("readline-sync");
+
+// Function to compute the sum
+function computeSum(numbers) {
+    let total = 0;
+    for (let num of numbers) {
+        total += num;
+    }
+    return total;
+}
+
+// Function to compute the average
+function computeAverage(numbers) {
+    let total = computeSum(numbers);
+    return total / numbers.length;
+}
+
+// Function to find the maximum number
+function computeMax(numbers) {
+    let maximum = numbers[0];
+    for (let num of numbers) {
+        if (num > maximum) {
+            maximum = num;
+        }
+    }
+    return maximum;   
+}
+
+// Function to find the minimum number
+function computeMin(numbers) {
+    let minimum = numbers[0];
+    for (let num of numbers) {
+        if (num < minimum) {
+            minimum = num;
+        }
+    }
+    return minimum;   
+}
+
+// The main program
+let n = parseInt(readline.question("How many numbers? "));
+
+if (n <= 0) {
+    console.log("Error: Number of items must be a positive integer.");
+} else {
+    let nums = [];
+
+    for (let i = 0; i < n; i++) {
+        let value = parseFloat(readline.question(`Enter number ${i + 1}: `));
+        nums.push(value);
+    }
+
+    console.log("\nResults:");
+    console.log("Sum:     ", computeSum(nums));
+    console.log("Average: ", computeAverage(nums));
+    console.log("Maximum: ", computeMax(nums));
+    console.log("Minimum: ", computeMin(nums));
+}

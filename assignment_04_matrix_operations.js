@@ -68,5 +68,132 @@
 // YOUR CODE BELOW — remove the // symbols from the scaffold and fill it in
 // =============================================================================
 
-const readlineSync = require('readline-sync');
 
+const readline = require('readline-sync');
+
+// Helper function: Read a matrix
+function readMatrix(rows, cols, name) {
+    let matrix = [];
+    console.log(`\nEnter values for ${name}:`);
+    for (let i = 0; i < rows; i++) {
+        let rowInput = readline.question(`Row ${i + 1}: `);
+        let row = rowInput.split(' ').map(Number);
+        if (row.length !== cols) {
+            console.log(`Error: Row must have exactly ${cols} numbers.`);
+            i--; // retry this row
+        } else {
+            matrix.push(row);
+        }
+    }
+    return matrix;
+}
+
+// Helper function: Print matrix neatly
+function printMatrix(matrix, title) {
+    console.log(`\n${title}:`);
+    for (let row of matrix) {
+        console.log(row.map(num => num.toString().padStart(5, ' ')).join(''));
+    }
+}
+
+// PART A — Transpose
+function transpose(matrix) {
+    let rows = matrix.length;
+    let cols = matrix[0].length;
+    let result = [];
+    for (let j = 0; j < cols; j++) {
+        let newRow = [];
+        for (let i = 0; i < rows; i++) {
+            newRow.push(matrix[i][j]);
+        }
+        result.push(newRow);
+    }
+    return result;
+}
+
+// PART B — Add Two Matrices
+function addMatrices(A, B) {
+    let rows = A.length;
+    let cols = A[0].length;
+    let result = [];
+    for (let i = 0; i < rows; i++) {
+        let newRow = [];
+        for (let j = 0; j < cols; j++) {
+            newRow.push(A[i][j] + B[i][j]);
+        }
+        result.push(newRow);
+    }
+    return result;
+}
+
+// PART C — Multiply Two Matrices
+function multiplyMatrices(A, B) {
+    let rowsA = A.length;
+    let colsA = A[0].length;
+    let rowsB = B.length;
+    let colsB = B[0].length;
+
+    if (colsA !== rowsB) {
+        console.log("Error: Columns of first matrix must equal rows of second.");
+        return null;
+    }
+
+    let result = [];
+    for (let i = 0; i < rowsA; i++) {
+        let newRow = [];
+        for (let j = 0; j < colsB; j++) {
+            let sum = 0;
+            for (let k = 0; k < colsA; k++) {
+                sum += A[i][k] * B[k][j];
+            }
+            newRow.push(sum);
+        }
+        result.push(newRow);
+    }
+    return result;
+}
+
+// MAIN PROGRAM
+console.log("=== MATRIX OPERATIONS ===");
+
+// Part A: Transpose
+let rowsA = readline.questionInt("\nEnter rows for Matrix A: ");
+let colsA = readline.questionInt("Enter cols for Matrix A: ");
+let A = readMatrix(rowsA, colsA, "Matrix A");
+printMatrix(A, "Original Matrix A");
+let AT = transpose(A);
+printMatrix(AT, "Transposed Matrix A");
+
+// Part B: Add Two Matrices
+let rowsB = readline.questionInt("\nEnter rows for Matrix B: ");
+let colsB = readline.questionInt("Enter cols for Matrix B: ");
+let B = readMatrix(rowsB, colsB, "Matrix B");
+
+let rowsC = readline.questionInt("Enter rows for Matrix C: ");
+let colsC = readline.questionInt("Enter cols for Matrix C: ");
+let C = readMatrix(rowsC, colsC, "Matrix C");
+
+if (rowsB === rowsC && colsB === colsC) {
+    let sum = addMatrices(B, C);
+    printMatrix(B, "Matrix B");
+    printMatrix(C, "Matrix C");
+    printMatrix(sum, "B + C");
+} else {
+    console.log("Skipping addition: Matrices must be same size.");
+}
+
+// Part C: Multiply Two Matrices
+let rowsD = readline.questionInt("\nEnter rows for Matrix D: ");
+let colsD = readline.questionInt("Enter cols for Matrix D: ");
+let D = readMatrix(rowsD, colsD, "Matrix D");
+
+let rowsE = readline.questionInt("Enter rows for Matrix E: ");
+let colsE = readline.questionInt("Enter cols for Matrix E: ");
+let E = readMatrix(rowsE, colsE, "Matrix E");
+
+let product = multiplyMatrices(D, E);
+if (product) {
+    printMatrix(D, "Matrix D");
+    printMatrix(E, "Matrix E");
+    printMatrix(product, "D x E");
+}

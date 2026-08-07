@@ -60,3 +60,45 @@
 // =============================================================================
 
 
+
+const readline = require("readline-sync");
+
+// PART A — Single Table
+function singleTable() {
+    let num = parseInt(readline.question("Enter a number: "));
+
+    if (isNaN(num) || num <= 0) {
+        console.log("Error: Please enter a positive integer.");
+        return;
+    }
+
+    console.log(`\nMultiplication Table for ${num}:`);
+    for (let i = 1; i <= 12; i++) {
+        console.log(`${num}  x  ${i}  =  ${num * i}`);
+    }
+}
+
+// PART B — Multiple Tables (1 to N)
+function multipleTables() {
+    let N = parseInt(readline.question("\nEnter N: "));
+
+    if (isNaN(N) || N <= 0) {
+        console.log("Error: N must be a positive integer.");
+        return;
+    }
+
+    for (let num = 1; num <= N; num++) {
+        console.log(`\nMultiplication Table for ${num}:`);
+        for (let i = 1; i <= 12; i++) {
+            console.log(`${num}  x  ${i}  =  ${num * i}`);
+        }
+        console.log("---------------------------");
+    }
+}
+
+// MAIN PROGRAM
+console.log("PART A — Single Table");
+singleTable();
+
+console.log("\nPART B — Multiple Tables");
+multipleTables();
